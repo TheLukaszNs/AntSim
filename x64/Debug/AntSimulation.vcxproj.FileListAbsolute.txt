@@ -1,2 +1,0 @@
-C:\Lukasz\Programowanie\C++\Projekt\AntSimulation\AntSimulation\x64\Debug\AntSimulation.exe
-C:\Lukasz\Programowanie\C++\Projekt\AntSimulation\AntSimulation\x64\Debug\AntSimulation.pdb
