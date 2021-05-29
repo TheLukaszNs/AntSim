@@ -4,6 +4,8 @@ Application::Application()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Ant Simulations", sf::Style::Fullscreen);
 	this->event = sf::Event();
+
+	ImGui::SFML::Init(*window);
 }
 
 Application::~Application()
@@ -15,25 +17,44 @@ void Application::Start()
 {
 	while (this->window->isOpen())
 	{
+		UpdateEvents();
 		this->Update();
 		this->Render();
 	}
 }
 
-void Application::Update()
+void Application::UpdateEvents()
 {
-	this->deltaTime = clock.restart().asSeconds();
-
 	while (this->window->pollEvent(this->event))
 	{
+		ImGui::SFML::ProcessEvent(event);
+		
 		// close the window
 		if (this->event.type == sf::Event::Closed)
+		{
 			this->window->close();
+			ImGui::SFML::Shutdown();
+		}
 	}
+}
+
+void Application::Update()
+{
+	this->deltaTime = clock.restart();
+	
+	// Dear ImGui stuff
+	ImGui::SFML::Update(*window, deltaTime);
+
 }
 
 void Application::Render()
 {
 	this->window->clear(sf::Color::Black);
+
+	// Dear ImGui stuff
+	ImGui::ShowMetricsWindow();
+	ImGui::SFML::Render(*window);
+
 	this->window->display();
+
 }
