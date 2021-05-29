@@ -12,6 +12,9 @@ private:
 	sf::Event event;
 	sf::Clock clock;
 	sf::Time deltaTime;
+	bool editorVisible;
+
+	void ShowEditor();
 
 public:
 	Application();

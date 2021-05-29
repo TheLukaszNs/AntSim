@@ -1,9 +1,18 @@
 #include "Application.h"
 
+void Application::ShowEditor()
+{
+	ImGui::SetNextWindowSize(ImVec2(500.0f, 500.0f));
+	ImGui::Begin("Editor Settings");
+	// ...
+	ImGui::End();
+}
+
 Application::Application()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Ant Simulations", sf::Style::Fullscreen);
 	this->event = sf::Event();
+	this->editorVisible = false;
 
 	ImGui::SFML::Init(*window);
 }
@@ -35,6 +44,14 @@ void Application::UpdateEvents()
 			this->window->close();
 			ImGui::SFML::Shutdown();
 		}
+
+		// any key pressed
+		if (this->event.type == sf::Event::KeyPressed)
+		{
+			// show / close Editor
+			if (this->event.key.code == sf::Keyboard::E)
+				this->editorVisible = this->editorVisible ? false : true;
+		}
 	}
 }
 
@@ -52,7 +69,11 @@ void Application::Render()
 	this->window->clear(sf::Color::Black);
 
 	// Dear ImGui stuff
-	ImGui::ShowMetricsWindow();
+	ImGui::ShowDemoWindow();
+	// show Editor
+	if (this->editorVisible)
+		this->ShowEditor();
+
 	ImGui::SFML::Render(*window);
 
 	this->window->display();
