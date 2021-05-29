@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Application.h"
 
 void Application::ShowEditor()
@@ -61,12 +62,13 @@ void Application::Update()
 	
 	// Dear ImGui stuff
 	ImGui::SFML::Update(*window, deltaTime);
-
 }
 
 void Application::Render()
 {
-	this->window->clear(sf::Color::Black);
+	this->window->clear(sf::Color(176, 119, 79));
+
+	int val{};
 
 	// Dear ImGui stuff
 	ImGui::ShowDemoWindow();
