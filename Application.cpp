@@ -1,18 +1,11 @@
 #include "pch.h"
 #include "Application.h"
 
-void Application::ShowEditor()
-{
-	ImGui::SetNextWindowSize(ImVec2(500.0f, 500.0f));
-	ImGui::Begin("Editor Settings");
-	// ...
-	ImGui::End();
-}
-
 Application::Application()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Ant Simulations", sf::Style::Fullscreen);
 	this->event = sf::Event();
+	this->editor = new Editor(this->window);
 	this->editorVisible = false;
 
 	ImGui::SFML::Init(*window);
@@ -21,6 +14,7 @@ Application::Application()
 Application::~Application()
 {
 	delete this->window;
+	delete this->editor;
 }
 
 void Application::Start()
@@ -68,13 +62,11 @@ void Application::Render()
 {
 	this->window->clear(sf::Color(176, 119, 79));
 
-	int val{};
-
 	// Dear ImGui stuff
 	ImGui::ShowDemoWindow();
 	// show Editor
 	if (this->editorVisible)
-		this->ShowEditor();
+		this->editor->ShowEditor();
 
 	ImGui::SFML::Render(*window);
 

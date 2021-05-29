@@ -1,7 +1,6 @@
 #pragma once
 
-#include <imgui.h>
-#include <imgui-SFML.h>
+#include "Editor.h"
 
 class Application
 {
@@ -10,9 +9,8 @@ private:
 	sf::Event event;
 	sf::Clock clock;
 	sf::Time deltaTime;
+	Editor* editor;
 	bool editorVisible;
-
-	void ShowEditor();
 
 public:
 	Application();
