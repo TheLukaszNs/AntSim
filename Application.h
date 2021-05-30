@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Editor.h"
+#include "Ant.h"
 
 class Application
 {
@@ -11,6 +12,8 @@ private:
 	sf::Time deltaTime;
 	Editor* editor;
 	bool editorVisible;
+
+	Ant ant;
 
 public:
 	Application();
