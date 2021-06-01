@@ -34,14 +34,24 @@ void Map::Update()
 
 void Map::Render()
 {
-	if (this->settings->placeAntHill && !this->settings->antHillPlaced)
-		this->DrawAntHill();
+	switch (this->settings->placeObject)
+	{
+	case 0:
+		if (!this->settings->antHillPlaced)
+			this->DrawAntHill();
+		break;
 
-	if (this->settings->placeFood)
+	case 1:
 		this->DrawFood();
+		break;
 
-	if (this->settings->placeWall)
+	case 2:
 		this->DrawWalls();
+		break;
+
+	default:
+		break;
+	}
 
 	this->DisplayAll();
 }

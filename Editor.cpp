@@ -11,29 +11,17 @@ void Editor::DisplaySettings()
 	// Ant Hill
 	ImGui::Text("Ant Hill Settings");
 	ImGui::ColorEdit4("Ant Hill Color", this->settings->antHillColor);
-	ImGui::Checkbox("Place Ant Hill", &this->settings->placeAntHill);
+	ImGui::RadioButton("Place Ant Hill", &this->settings->placeObject, 0);
 
 	// Food
 	ImGui::Text("Food Settings");
 	ImGui::ColorEdit4("Food Color", this->settings->foodColor);
-	ImGui::Checkbox("Place Food", &this->settings->placeFood);
+	ImGui::RadioButton("Place Food", &this->settings->placeObject, 1);
 
 	// Walls
 	ImGui::Text("Wall Settings");
 	ImGui::ColorEdit4("Wall Color", this->settings->wallColor);
-	ImGui::Checkbox("Place Wall", &this->settings->placeWall);
-}
-
-void Editor::CheckboxValidation()
-{
-	if (this->settings->placeAntHill)
-		this->settings->placeFood = this->settings->placeWall = false;
-
-	if (this->settings->placeFood)
-		this->settings->placeAntHill = this->settings->placeWall = false;
-
-	if (this->settings->placeWall)
-		this->settings->placeFood = this->settings->placeAntHill = false;
+	ImGui::RadioButton("Place Wall", &this->settings->placeObject, 2);
 }
 
 Editor::Editor(sf::RenderWindow* window, SimulationSettings* settings) : window(window), settings(settings)
@@ -52,7 +40,6 @@ void Editor::ShowEditor()
 	ImGui::Begin("Editor Settings");
 
 	this->DisplaySettings();
-	this->CheckboxValidation();
 
 	// close window
 	if (ImGui::Button("Exit", ImVec2(-1.0f, 20.0f)))

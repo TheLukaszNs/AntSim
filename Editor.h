@@ -9,7 +9,6 @@ private:
 	SimulationSettings* settings;
 
 	void DisplaySettings();
-	void CheckboxValidation();
 
 public:
 	Editor(sf::RenderWindow* window, SimulationSettings* settings);
