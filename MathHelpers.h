@@ -15,10 +15,17 @@
 
 namespace AntMath
 {
-	constexpr float PI = 3.14159265359f;
+	/// It's just a PI 
+	constexpr static float PI = 3.14159265359f;
+	
+	/// Degrees-to-radians conversion constant 
+	constexpr static float Deg2Rad = (2.f * PI) / 360.f;
+	
+	/// Radians-to-degrees conversion constant
+	constexpr static float Rad2Deg = 360.f / (PI * 2.f);
 
 	using Random = effolkronium::random_static;
-	
+
 	template <typename T>
 	T Clamp(T val, T min, T max)
 	{
@@ -57,5 +64,20 @@ namespace AntMath
 		float angle = 2.f * PI * Random::get<float>(-1, 1);
 
 		return { std::cos(angle), std::sin(angle) };
+	}
+
+	template <typename T>
+	T Dot(sf::Vector2<T> v1, sf::Vector2<T> v2)
+	{
+		return v1.x * v2.x + v1.y * v2.y;
+	}
+
+	template <typename T>
+	float Angle(sf::Vector2<T> vec1, sf::Vector2<T> vec2)
+	{
+		float mag1 = Magnitude(vec1);
+		float mag2 = Magnitude(vec2);
+
+		return std::acos(Dot<T>(vec1, vec2) / (mag1 + mag2));
 	}
 }

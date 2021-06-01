@@ -13,7 +13,7 @@ Ant::~Ant()
 {
 }
 
-void Ant::Update(const float& dt)
+void Ant::Wander(const float& dt)
 {
 	direction = AntMath::NormalizeVector(direction + AntMath::RandomInUnitCircle() * 0.1f);
 
@@ -23,7 +23,20 @@ void Ant::Update(const float& dt)
 	
 	velocity = AntMath::ClampMagnitude(velocity + acceleration * dt, 100.f);
 	position += velocity * dt;
+}
 
+void Ant::Update(const float& dt)
+{
+	Wander(dt);
+
+	accumulatedTime += dt;
+
+	if (accumulatedTime > 3.0f)
+	{
+		printf("PLACING MARK\n");
+		accumulatedTime = 0.f;
+	}
+	
 	shape.setPosition(position);
 }
 
