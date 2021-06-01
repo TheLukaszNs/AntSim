@@ -5,8 +5,10 @@ Application::Application()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Ant Simulations", sf::Style::Fullscreen);
 	this->event = sf::Event();
-	this->editor = new Editor(this->window);
+	this->settings = new SimulationSettings;
+	this->editor = new Editor(this->window, this->settings);
 	this->editorVisible = false;
+	this->map = new Map(this->window, this->settings);
 
 	ImGui::SFML::Init(*window);
 }
@@ -53,6 +55,8 @@ void Application::UpdateEvents()
 void Application::Update()
 {
 	this->deltaTime = clock.restart();
+
+	this->map->Update();
 	
 	// Dear ImGui stuff
 	ImGui::SFML::Update(*window, deltaTime);
@@ -61,6 +65,8 @@ void Application::Update()
 void Application::Render()
 {
 	this->window->clear(sf::Color(176, 119, 79));
+
+	this->map->Render();
 
 	// Dear ImGui stuff
 	ImGui::ShowDemoWindow();
