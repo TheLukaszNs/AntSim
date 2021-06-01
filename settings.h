@@ -8,14 +8,13 @@ struct SimulationSettings
 
 	// Ant Hill
 	float antHillColor[4] = { 0.501960, 0.482352, 0.478431 , 1 };
-	bool placeAntHill = false;
 	bool antHillPlaced = false;
 
 	// Food
 	float foodColor[4] = { 0.776470, 0.8, 0.137254 , 1 };
-	bool placeFood = false;
 
 	// Walls
 	float wallColor[4] = { 1, 1, 1, 1 };
-	bool placeWall = false;
+
+	int placeObject;
 };
