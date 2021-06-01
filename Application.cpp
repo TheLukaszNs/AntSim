@@ -57,6 +57,7 @@ void Application::Update()
 	this->deltaTime = clock.restart();
 
 	this->map->Update();
+	ant.Update(deltaTime.asSeconds());
 	
 	// Dear ImGui stuff
 	ImGui::SFML::Update(*window, deltaTime);
@@ -73,6 +74,8 @@ void Application::Render()
 	// show Editor
 	if (this->editorVisible)
 		this->editor->ShowEditor();
+
+	ant.Render(window);
 
 	ImGui::SFML::Render(*window);
 

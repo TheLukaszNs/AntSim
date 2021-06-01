@@ -2,6 +2,7 @@
 
 #include "Editor.h"
 #include "Map.h"
+#include "Ant.h"
 
 class Application
 {
@@ -14,6 +15,8 @@ private:
 	Editor* editor;
 	bool editorVisible;
 	Map* map;
+
+	Ant ant;
 
 public:
 	Application();
