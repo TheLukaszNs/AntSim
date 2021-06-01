@@ -34,6 +34,8 @@ void Map::Update()
 
 void Map::Render()
 {
+	this->window->clear(this->ConvertColor(this->settings->backgroundColor));
+
 	switch (this->settings->placeObject)
 	{
 	case 0:
@@ -77,8 +79,16 @@ void Map::DrawFood()
 	f.setFillColor(this->ConvertColor(this->settings->foodColor));
 	f.setPosition(sf::Vector2f(mousePosition.x - f.getRadius(), mousePosition.y - f.getRadius()));
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		this->food.push_back(f);
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+	{
+		for (int i = 0; i < this->food.size(); i++)
+		{
+			if ()
+				break;
+			else
+				this->food.push_back(f);
+		}
+	}
 
 	this->window->draw(f);
 }
@@ -88,12 +98,13 @@ void Map::DrawWalls()
 	sf::Vector2i mousePosition = sf::Mouse::getPosition(*this->window);
 	this->w.setSize(sf::Vector2f(200.0f, 10.0f));
 	this->w.setFillColor(this->ConvertColor(this->settings->wallColor));
-	this->w.setPosition(sf::Vector2f(mousePosition.x - this->w.getSize().x / 2, mousePosition.y - this->w.getSize().y / 2));
+	this->w.setPosition(sf::Vector2f(mousePosition.x, mousePosition.y));
+	this->w.setOrigin(sf::Vector2f(this->w.getSize().x / 2, this->w.getSize().y / 2));
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
-		this->w.rotate(10.0f);
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		this->w.rotate(45.0f);
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 		this->walls.push_back(this->w);
 
 	this->window->draw(this->w);

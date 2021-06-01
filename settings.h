@@ -2,8 +2,11 @@
 
 struct SimulationSettings
 {
+	// Editor 
+	float backgroundColor[4] = { 0.690196, 0.466666, 0.309803, 1 };
+
 	// Ants
-	int numberOfAnts;
+	int numberOfAnts = 1;
 	float antColor[4] = { 0.529411, 0.219078, 0.011764, 1 };
 
 	// Ant Hill
@@ -16,5 +19,6 @@ struct SimulationSettings
 	// Walls
 	float wallColor[4] = { 1, 1, 1, 1 };
 
+	// Switch
 	int placeObject;
 };

@@ -3,6 +3,9 @@
 
 void Editor::DisplaySettings()
 {
+	ImGui::Text("Background");
+	ImGui::ColorEdit4("Background Color", this->settings->backgroundColor);
+
 	// Ants
 	ImGui::Text("Ant Settings");
 	ImGui::SliderInt("Number Of Ants", &this->settings->numberOfAnts, 1, 1000);
