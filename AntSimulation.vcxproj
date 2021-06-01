@@ -213,7 +213,6 @@
     <ClInclude Include="Editor.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MathHelpers.h" />
-    <ClInclude Include="Map.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="random.hpp" />
     <ClInclude Include="settings.h" />
