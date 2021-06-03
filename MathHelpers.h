@@ -33,6 +33,12 @@ namespace AntMath
 		if (val < min) return min;
 		return val;
 	}
+
+	template <typename T>
+	float Distance(sf::Vector2<T> v1, sf::Vector2<T> v2)
+	{
+		return std::sqrt((v2.x - v1.x) * (v2.x - v1.x) + (v2.y - v1.y) * (v2.y - v1.y));
+	}
 	
 	template <typename T>
 	float Magnitude(sf::Vector2<T> v)

@@ -17,9 +17,9 @@ void Map::DisplayAll()
 		this->window->draw(this->walls[i]);
 }
 
-Map::Map(sf::RenderWindow* window, SimulationSettings* settings) : window(window), settings(settings)
+Map::Map(sf::RenderWindow* window) : window(window)
 {
-
+	grid = new MapGrid(window->getSize().x, window->getSize().y, 10);
 }
 
 Map::~Map()
@@ -27,20 +27,29 @@ Map::~Map()
 
 }
 
-void Map::Update()
+void Map::Update(const float& dt)
 {
-	//this->windowSettings = ImGui::GetIO();
-	//this->windowSettings.WantCaptureMouse = false;
+	grid->Update(dt);
 }
 
 void Map::Render()
 {
-	this->window->clear(this->ConvertColor(this->settings->backgroundColor));
+	grid->Render(window);
 
-	switch (this->settings->placeObject)
+	
+	if(!verticesToDraw.empty())
+	{
+		window->draw(&verticesToDraw[0], verticesToDraw.size(), sf::Points);
+	}
+
+	
+	switch (SimulationSettings::placeObject)
+	this->window->clear(this->ConvertColor(SimulationSettings::backgroundColor));
+
+	switch (SimulationSettings::placeObject)
 	{
 	case 0:
-		if (!this->settings->antHillPlaced)
+		if (!SimulationSettings::antHillPlaced)
 			this->DrawAntHill();
 		break;
 
@@ -59,18 +68,49 @@ void Map::Render()
 	this->DisplayAll();
 }
 
+void Map::AddPoint(sf::Vector2f position)
+{
+	verticesToDraw.emplace_back(position);
+}
+
+MapPoint* Map::GetPointInsideCircle(sf::Vector2f pos, float radius)
+{
+	for (auto* point : points)
+	{
+		if (AntMath::Distance<float>(pos, point->pos) <= radius)
+			return point;
+	}
+
+	return nullptr;
+}
+
+MapPoint* Map::GetFoodInsideCircle(sf::Vector2f pos, float radius)
+{
+	for (auto* point : points)
+	{
+		if(point->type == MapPointType::Food)
+			if (AntMath::Distance<float>(pos, point->pos) <= radius)
+				return point;
+	}
+
+	return nullptr;
+}
+
 void Map::DrawAntHill()
 {
 	sf::Vector2f mousePosition = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 	this->antHill.setRadius(25.0f);
-	this->antHill.setFillColor(this->ConvertColor(this->settings->antHillColor));
+	this->antHill.setFillColor(this->ConvertColor(SimulationSettings::antHillColor));
+	this->antHill.setPosition(sf::Vector2f(mousePosition.x - this->antHill.getRadius(), mousePosition.y - this->antHill.getRadius()));
+	this->antHill.setFillColor(this->ConvertColor(SimulationSettings::antHillColor));
 	this->antHill.setOrigin(sf::Vector2f(this->antHill.getRadius(), this->antHill.getRadius()));
 	this->antHill.setPosition(sf::Vector2f(mousePosition.x, mousePosition.y));
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		SimulationSettings::antHillPlaced = true;
 	{
 		if (this->food.size() == 0)
-			this->settings->antHillPlaced = true;
+			SimulationSettings::antHillPlaced = true;
 
 		else
 		{
@@ -85,7 +125,7 @@ void Map::DrawAntHill()
 				}
 
 			if (canBePlaced)
-				this->settings->antHillPlaced = true;
+				SimulationSettings::antHillPlaced = true;
 		}
 	}
 
@@ -97,6 +137,8 @@ void Map::DrawFood()
 	sf::Vector2f mousePosition = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 	sf::CircleShape f;
 	f.setRadius(50.0f);
+	f.setFillColor(this->ConvertColor(SimulationSettings::foodColor));
+	f.setPosition(sf::Vector2f(mousePosition.x - f.getRadius(), mousePosition.y - f.getRadius()));
 	f.setFillColor(this->ConvertColor(this->settings->foodColor));
 	f.setOrigin(sf::Vector2f(f.getRadius(), f.getRadius()));
 	f.setPosition(sf::Vector2f(mousePosition.x, mousePosition.y));
@@ -104,11 +146,11 @@ void Map::DrawFood()
 	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
 		// nie ma mrowiska i jedzenia
-		if (this->settings->antHillPlaced == false && this->food.size() == 0)
+		if (SimulationSettings::antHillPlaced == false && this->food.size() == 0)
 			this->food.push_back(f);
 
 		// nie ma mrowiska, jest jedzenie
-		else if (this->settings->antHillPlaced == false && this->food.size() > 0)
+		else if (SimulationSettings::antHillPlaced == false && this->food.size() > 0)
 		{
 			bool canBePlaced = true;
 			int size = this->food.size();
@@ -125,7 +167,7 @@ void Map::DrawFood()
 		}
 
 		// jest mrowisko, nie ma jedzenia
-		else if (this->settings->antHillPlaced && this->food.size() == 0)
+		else if (SimulationSettings::antHillPlaced && this->food.size() == 0)
 		{
 			if (this->antHill.getRadius() + f.getRadius() <= AntMath::Magnitude<float>(this->antHill.getPosition() - mousePosition))
 				this->food.push_back(f);
@@ -159,7 +201,9 @@ void Map::DrawWalls()
 {
 	sf::Vector2f mousePosition = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 	this->w.setSize(sf::Vector2f(200.0f, 10.0f));
-	this->w.setFillColor(this->ConvertColor(this->settings->wallColor));
+	this->w.setFillColor(this->ConvertColor(SimulationSettings::wallColor));
+	this->w.setPosition(sf::Vector2f(mousePosition.x - this->w.getSize().x / 2, mousePosition.y - this->w.getSize().y / 2));
+	this->w.setFillColor(this->ConvertColor(SimulationSettings::wallColor));
 	this->w.setPosition(sf::Vector2f(mousePosition.x, mousePosition.y));
 	this->w.setOrigin(sf::Vector2f(this->w.getSize().x / 2, this->w.getSize().y / 2));
 

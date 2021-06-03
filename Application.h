@@ -11,12 +11,11 @@ private:
 	sf::Event event;
 	sf::Clock clock;
 	sf::Time deltaTime;
-	SimulationSettings* settings;
 	Editor* editor;
 	bool editorVisible;
 	Map* map;
 
-	Ant ant;
+	std::vector<Ant*> ants;
 
 public:
 	Application();
