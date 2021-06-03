@@ -63,10 +63,30 @@ void Map::DrawAntHill()
 	sf::Vector2f mousePosition = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 	this->antHill.setRadius(25.0f);
 	this->antHill.setFillColor(this->ConvertColor(this->settings->antHillColor));
-	this->antHill.setPosition(sf::Vector2f(mousePosition.x - this->antHill.getRadius(), mousePosition.y - this->antHill.getRadius()));
+	this->antHill.setOrigin(sf::Vector2f(this->antHill.getRadius(), this->antHill.getRadius()));
+	this->antHill.setPosition(sf::Vector2f(mousePosition.x, mousePosition.y));
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		this->settings->antHillPlaced = true;
+	{
+		if (this->food.size() == 0)
+			this->settings->antHillPlaced = true;
+
+		else
+		{
+			int size = this->food.size();
+			bool canBePlaced = true;
+
+			for (int i = 0; i < size; i++)
+				if (this->antHill.getRadius() + this->food[i].getRadius() > AntMath::Magnitude<float>(this->antHill.getPosition() - this->food[i].getPosition()))
+				{
+					canBePlaced = false;
+					break;
+				}
+
+			if (canBePlaced)
+				this->settings->antHillPlaced = true;
+		}
+	}
 
 	this->window->draw(this->antHill);
 }
@@ -77,7 +97,8 @@ void Map::DrawFood()
 	sf::CircleShape f;
 	f.setRadius(50.0f);
 	f.setFillColor(this->ConvertColor(this->settings->foodColor));
-	f.setPosition(sf::Vector2f(mousePosition.x - f.getRadius(), mousePosition.y - f.getRadius()));
+	f.setOrigin(sf::Vector2f(f.getRadius(), f.getRadius()));
+	f.setPosition(sf::Vector2f(mousePosition.x, mousePosition.y));
 
 	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
