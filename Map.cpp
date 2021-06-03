@@ -42,10 +42,6 @@ void Map::Render()
 		window->draw(&verticesToDraw[0], verticesToDraw.size(), sf::Points);
 	}
 
-	
-	switch (SimulationSettings::placeObject)
-	this->window->clear(this->ConvertColor(SimulationSettings::backgroundColor));
-
 	switch (SimulationSettings::placeObject)
 	{
 	case 0:
@@ -139,7 +135,7 @@ void Map::DrawFood()
 	f.setRadius(50.0f);
 	f.setFillColor(this->ConvertColor(SimulationSettings::foodColor));
 	f.setPosition(sf::Vector2f(mousePosition.x - f.getRadius(), mousePosition.y - f.getRadius()));
-	f.setFillColor(this->ConvertColor(this->settings->foodColor));
+	f.setFillColor(this->ConvertColor(SimulationSettings::foodColor));
 	f.setOrigin(sf::Vector2f(f.getRadius(), f.getRadius()));
 	f.setPosition(sf::Vector2f(mousePosition.x, mousePosition.y));
 

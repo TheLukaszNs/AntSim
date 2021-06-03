@@ -20,10 +20,10 @@ MapGrid::MapGrid(float width_, float height_, int cellSize_) : width(std::ceil(w
 			vertices[i + 3].position	= sf::Vector2f((x * cellSize), (y * cellSize) + cellSize);
 
 			uint8_t val = AntMath::Random::get<uint8_t>(0, 255);
-			vertices[i].color = sf::Color::Black;
-			vertices[i + 1].color = sf::Color::Black;
-			vertices[i + 2].color = sf::Color::Black;
-			vertices[i + 3].color = sf::Color::Black;
+			vertices[i].color = sf::Color(0,0,0,0);
+			vertices[i + 1].color = sf::Color(0, 0, 0, 0);
+			vertices[i + 2].color = sf::Color(0, 0, 0, 0);
+			vertices[i + 3].color = sf::Color(0, 0, 0, 0);
 
 			cells.push_back(GridCell());
 

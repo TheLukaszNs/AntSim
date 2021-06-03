@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "settings.h"
 
+float	SimulationSettings::backgroundColor[] = { 0.690196, 0.466666, 0.309803, 1 };
 int		SimulationSettings::numberOfAnts = 1;
 float	SimulationSettings::antColor[] = { 0.529411f, 0.219078f, 0.011764f, 1 };
 float	SimulationSettings::antHillColor[] = { 0.501960f, 0.482352f, 0.478431f , 1 };

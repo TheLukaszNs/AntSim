@@ -4,7 +4,7 @@
 void Editor::DisplaySettings()
 {
 	ImGui::Text("Background");
-	ImGui::ColorEdit4("Background Color", this->settings->backgroundColor);
+	ImGui::ColorEdit4("Background Color", SimulationSettings::backgroundColor);
 
 	// Ants
 	ImGui::Text("Ant Settings");

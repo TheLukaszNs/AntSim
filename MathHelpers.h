@@ -86,4 +86,10 @@ namespace AntMath
 
 		return std::acos(Dot<T>(vec1, vec2) / (mag1 + mag2));
 	}
+
+	// Copyright 2021 Kacper Grabiec
+	inline sf::Color ConvertColor(float color[4])
+	{
+		return sf::Color(static_cast<sf::Uint32>(color[0] * 255), static_cast<sf::Uint32>(color[1] * 255), static_cast<sf::Uint32>(color[2] * 255), 255);
+	}
 }

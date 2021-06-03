@@ -82,7 +82,7 @@ void Application::Update()
 
 void Application::Render()
 {
-	this->window->clear(sf::Color::Black);
+	this->window->clear(AntMath::ConvertColor(SimulationSettings::backgroundColor));
 
 	this->map->Render();
 

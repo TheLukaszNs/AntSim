@@ -3,7 +3,7 @@
 struct SimulationSettings
 {
 	// Editor 
-	float backgroundColor[4] = { 0.690196, 0.466666, 0.309803, 1 };
+	static float backgroundColor[4];
 
 	// Ants
 	static int numberOfAnts;
