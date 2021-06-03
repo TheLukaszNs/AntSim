@@ -2,6 +2,9 @@
 
 #include <iostream>
 #include <cmath>
+#include <set>
+#include <vector>
+
 #include <SFML/Graphics.hpp>
 #include <imgui.h>
 #include <imgui-SFML.h>

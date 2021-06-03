@@ -5,26 +5,26 @@ void Editor::DisplaySettings()
 {
 	// Ants
 	ImGui::Text("Ant Settings");
-	ImGui::SliderInt("Number Of Ants", &this->settings->numberOfAnts, 1, 1000);
-	ImGui::ColorEdit4("Ant Color", this->settings->antColor);
+	ImGui::SliderInt("Number Of Ants", &SimulationSettings::numberOfAnts, 1, 1000);
+	ImGui::ColorEdit4("Ant Color", SimulationSettings::antColor);
 
 	// Ant Hill
 	ImGui::Text("Ant Hill Settings");
-	ImGui::ColorEdit4("Ant Hill Color", this->settings->antHillColor);
-	ImGui::RadioButton("Place Ant Hill", &this->settings->placeObject, 0);
+	ImGui::ColorEdit4("Ant Hill Color", SimulationSettings::antHillColor);
+	ImGui::RadioButton("Place Ant Hill", &SimulationSettings::placeObject, 0);
 
 	// Food
 	ImGui::Text("Food Settings");
-	ImGui::ColorEdit4("Food Color", this->settings->foodColor);
-	ImGui::RadioButton("Place Food", &this->settings->placeObject, 1);
+	ImGui::ColorEdit4("Food Color", SimulationSettings::foodColor);
+	ImGui::RadioButton("Place Food", &SimulationSettings::placeObject, 1);
 
 	// Walls
 	ImGui::Text("Wall Settings");
-	ImGui::ColorEdit4("Wall Color", this->settings->wallColor);
-	ImGui::RadioButton("Place Wall", &this->settings->placeObject, 2);
+	ImGui::ColorEdit4("Wall Color", SimulationSettings::wallColor);
+	ImGui::RadioButton("Place Wall", &SimulationSettings::placeObject, 2);
 }
 
-Editor::Editor(sf::RenderWindow* window, SimulationSettings* settings) : window(window), settings(settings)
+Editor::Editor(sf::RenderWindow* window) : window(window)
 {
 
 }

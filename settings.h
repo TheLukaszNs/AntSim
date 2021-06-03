@@ -3,18 +3,19 @@
 struct SimulationSettings
 {
 	// Ants
-	int numberOfAnts;
-	float antColor[4] = { 0.529411, 0.219078, 0.011764, 1 };
+	static int numberOfAnts;
+	static float antColor[4];
 
 	// Ant Hill
-	float antHillColor[4] = { 0.501960, 0.482352, 0.478431 , 1 };
-	bool antHillPlaced = false;
+	static float antHillColor[4];
+	static bool antHillPlaced;
 
 	// Food
-	float foodColor[4] = { 0.776470, 0.8, 0.137254 , 1 };
+	static float foodColor[4];
 
 	// Walls
-	float wallColor[4] = { 1, 1, 1, 1 };
+	static float wallColor[4];
 
-	int placeObject;
+	static int placeObject;
 };
+

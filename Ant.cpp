@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "Ant.h"
 
-Ant::Ant()
+Ant::Ant(Map* map) : map(map)
 {
-	shape.setFillColor(sf::Color::Black);
-	shape.setRadius(8.f);
-	position = { 1000.f, 600.f };
+	shape.setFillColor(sf::Color::White);
+	shape.setRadius(2.f);
+	position = { 960.f, 560.f };
 	shape.setPosition(position);
 }
 
@@ -15,25 +15,39 @@ Ant::~Ant()
 
 void Ant::Wander(const float& dt)
 {
-	direction = AntMath::NormalizeVector(direction + AntMath::RandomInUnitCircle() * 0.1f);
+	direction = AntMath::NormalizeVector(direction + AntMath::RandomInUnitCircle() * 0.05f);
 
-	sf::Vector2f desVel = direction * 100.f;
-	sf::Vector2f desSteeringForce = (desVel - velocity) * 100.f;
-	sf::Vector2f acceleration = AntMath::ClampMagnitude(desSteeringForce, 100.f) / 1.f;
+	sf::Vector2f desVel = direction * 50.f;
+	sf::Vector2f desSteeringForce = (desVel - velocity) * 50.f;
+	sf::Vector2f acceleration = AntMath::ClampMagnitude(desSteeringForce, 50.f) / 1.f;
 	
-	velocity = AntMath::ClampMagnitude(velocity + acceleration * dt, 100.f);
+	velocity = AntMath::ClampMagnitude(velocity + acceleration * dt, 50.f);
 	position += velocity * dt;
+}
+
+void Ant::HandleFood()
+{
+	if(state == AntState::Searching)
+	{
+		auto* p = map->GetFoodInsideCircle(position, 20.f);
+		if(p)
+		{
+			//printf("%f\n", p->pos.x);
+		}
+	}
 }
 
 void Ant::Update(const float& dt)
 {
 	Wander(dt);
+	HandleFood();
 
 	accumulatedTime += dt;
 
-	if (accumulatedTime > 3.0f)
+	if (accumulatedTime > .15f)
 	{
-		printf("PLACING MARK\n");
+		map->AddPoint(position);
+		
 		accumulatedTime = 0.f;
 	}
 	

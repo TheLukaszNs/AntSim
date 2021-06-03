@@ -5,10 +5,16 @@ Application::Application()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Ant Simulations", sf::Style::Fullscreen);
 	this->event = sf::Event();
-	this->settings = new SimulationSettings;
-	this->editor = new Editor(this->window, this->settings);
+	this->editor = new Editor(this->window);
 	this->editorVisible = false;
-	this->map = new Map(this->window, this->settings);
+	this->map = new Map(this->window);
+	for (int i = 0; i < 100; ++i)
+	{
+		ants.push_back(new Ant(map));
+	}
+
+	window->setKeyRepeatEnabled(false);
+	
 
 	ImGui::SFML::Init(*window);
 }
@@ -17,6 +23,13 @@ Application::~Application()
 {
 	delete this->window;
 	delete this->editor;
+
+	for (auto* ant : ants)
+	{
+		delete ant;
+	}
+
+	delete map;
 }
 
 void Application::Start()
@@ -56,8 +69,12 @@ void Application::Update()
 {
 	this->deltaTime = clock.restart();
 
-	this->map->Update();
-	ant.Update(deltaTime.asSeconds());
+	this->map->Update(deltaTime.asSeconds());
+	
+	for (const auto& ant : ants)
+	{
+		ant->Update(deltaTime.asSeconds());
+	}
 	
 	// Dear ImGui stuff
 	ImGui::SFML::Update(*window, deltaTime);
@@ -65,7 +82,7 @@ void Application::Update()
 
 void Application::Render()
 {
-	this->window->clear(sf::Color(176, 119, 79));
+	this->window->clear(sf::Color::Black);
 
 	this->map->Render();
 
@@ -75,7 +92,10 @@ void Application::Render()
 	if (this->editorVisible)
 		this->editor->ShowEditor();
 
-	ant.Render(window);
+	for (auto* ant : ants)
+	{
+		ant->Render(window);
+	}
 
 	ImGui::SFML::Render(*window);
 
