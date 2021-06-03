@@ -60,7 +60,7 @@ void Map::Render()
 
 void Map::DrawAntHill()
 {
-	sf::Vector2i mousePosition = sf::Mouse::getPosition(*this->window);
+	sf::Vector2f mousePosition = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 	this->antHill.setRadius(25.0f);
 	this->antHill.setFillColor(this->ConvertColor(this->settings->antHillColor));
 	this->antHill.setPosition(sf::Vector2f(mousePosition.x - this->antHill.getRadius(), mousePosition.y - this->antHill.getRadius()));
@@ -73,7 +73,7 @@ void Map::DrawAntHill()
 
 void Map::DrawFood()
 {
-	sf::Vector2i mousePosition = sf::Mouse::getPosition(*this->window);
+	sf::Vector2f mousePosition = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 	sf::CircleShape f;
 	f.setRadius(50.0f);
 	f.setFillColor(this->ConvertColor(this->settings->foodColor));
@@ -81,11 +81,22 @@ void Map::DrawFood()
 
 	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
-		for (int i = 0; i < this->food.size(); i++)
+		if (this->food.size() == 0)
+			this->food.push_back(f);
+
+		else
 		{
-			if ()
-				break;
-			else
+			int size = this->food.size();
+			bool canBePlaced = true;
+
+			for (int i = 0; i < size; i++)
+				if (2 * this->food[i].getRadius() > AntMath::Magnitude<float>(f.getPosition() - this->food[i].getPosition()))
+				{
+					canBePlaced = false;
+					break;
+				}
+
+			if (canBePlaced)
 				this->food.push_back(f);
 		}
 	}
@@ -95,7 +106,7 @@ void Map::DrawFood()
 
 void Map::DrawWalls()
 {
-	sf::Vector2i mousePosition = sf::Mouse::getPosition(*this->window);
+	sf::Vector2f mousePosition = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 	this->w.setSize(sf::Vector2f(200.0f, 10.0f));
 	this->w.setFillColor(this->ConvertColor(this->settings->wallColor));
 	this->w.setPosition(sf::Vector2f(mousePosition.x, mousePosition.y));
