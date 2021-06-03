@@ -29,7 +29,8 @@ Map::~Map()
 
 void Map::Update()
 {
-
+	//this->windowSettings = ImGui::GetIO();
+	//this->windowSettings.WantCaptureMouse = false;
 }
 
 void Map::Render()
@@ -102,20 +103,49 @@ void Map::DrawFood()
 
 	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 	{
-		if (this->food.size() == 0)
+		// nie ma mrowiska i jedzenia
+		if (this->settings->antHillPlaced == false && this->food.size() == 0)
 			this->food.push_back(f);
 
-		else
+		// nie ma mrowiska, jest jedzenie
+		else if (this->settings->antHillPlaced == false && this->food.size() > 0)
 		{
-			int size = this->food.size();
 			bool canBePlaced = true;
+			int size = this->food.size();
 
 			for (int i = 0; i < size; i++)
-				if (2 * this->food[i].getRadius() > AntMath::Magnitude<float>(f.getPosition() - this->food[i].getPosition()))
+				if (2 * f.getRadius() > AntMath::Magnitude<float>(this->food[i].getPosition() - mousePosition))
 				{
 					canBePlaced = false;
 					break;
 				}
+
+			if (canBePlaced)
+				this->food.push_back(f);
+		}
+
+		// jest mrowisko, nie ma jedzenia
+		else if (this->settings->antHillPlaced && this->food.size() == 0)
+		{
+			if (this->antHill.getRadius() + f.getRadius() <= AntMath::Magnitude<float>(this->antHill.getPosition() - mousePosition))
+				this->food.push_back(f);
+		}
+
+		// to i to jest
+		else
+		{
+			bool canBePlaced = true;
+			int size = this->food.size();
+
+			for (int i = 0; i < size; i++)
+			{
+				if (2 * f.getRadius() > AntMath::Magnitude<float>(this->food[i].getPosition() - mousePosition) ||
+					this->antHill.getRadius() + f.getRadius() > AntMath::Magnitude<float>(this->antHill.getPosition() - mousePosition))
+				{
+					canBePlaced = false;
+					break;
+				}
+			}
 
 			if (canBePlaced)
 				this->food.push_back(f);

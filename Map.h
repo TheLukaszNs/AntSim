@@ -11,6 +11,7 @@ private:
 	std::vector<sf::CircleShape> food;
 	std::vector<sf::RectangleShape> walls;
 	sf::RectangleShape w;
+	//ImGuiIO windowSettings;
 
 	sf::Color ConvertColor(float color[4]);
 	void DisplayAll();
