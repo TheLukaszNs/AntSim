@@ -19,7 +19,7 @@ void Map::DisplayAll()
 
 Map::Map(sf::RenderWindow* window) : window(window)
 {
-	grid = new MapGrid(window->getSize().x, window->getSize().y, 10);
+	grid = new MapGrid(window->getSize().x, window->getSize().y, 20);
 }
 
 Map::~Map()
@@ -39,7 +39,7 @@ void Map::Render()
 	
 	if(!verticesToDraw.empty())
 	{
-		window->draw(&verticesToDraw[0], verticesToDraw.size(), sf::Points);
+		//window->draw(&verticesToDraw[0], verticesToDraw.size(), sf::Points);
 	}
 
 	switch (SimulationSettings::placeObject)
@@ -64,9 +64,11 @@ void Map::Render()
 	this->DisplayAll();
 }
 
-void Map::AddPoint(sf::Vector2f position)
+void Map::AddPoint(sf::Vector2f position, AntState state, sf::Vector2f prevPos = sf::Vector2f(0, 0))
 {
-	verticesToDraw.emplace_back(position);
+	//verticesToDraw.emplace_back(position);
+
+	grid->WriteCell(position, AntMath::NormalizeVector(prevPos - position), state);
 }
 
 MapPoint* Map::GetPointInsideCircle(sf::Vector2f pos, float radius)

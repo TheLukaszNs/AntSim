@@ -79,6 +79,16 @@ namespace AntMath
 	}
 
 	template <typename T>
+	float Angle(sf::Vector2<T> vec)
+	{
+		float mag = Magnitude(vec);
+
+		const float val = std::acos(vec.x / mag);
+
+		return vec.y > 0.f ? val : -val;
+	}
+
+	template <typename T>
 	float Angle(sf::Vector2<T> vec1, sf::Vector2<T> vec2)
 	{
 		float mag1 = Magnitude(vec1);

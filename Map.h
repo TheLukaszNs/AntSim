@@ -27,12 +27,12 @@ private:
 	std::vector<MapPoint*> points;
 	std::vector<sf::Vertex> verticesToDraw;
 
-	MapGrid* grid;
 
 	sf::Color ConvertColor(float color[4]);
 	void DisplayAll();
 
 public:
+	MapGrid* grid;
 
 	
 	Map(sf::RenderWindow* window);
@@ -40,7 +40,7 @@ public:
 
 	void Update(const float& dt);
 	void Render();
-	void AddPoint(sf::Vector2f position);
+	void AddPoint(sf::Vector2f position, AntState state, sf::Vector2f prevPos);
 
 	MapPoint* GetPointInsideCircle(sf::Vector2f pos, float radius);
 	MapPoint* GetFoodInsideCircle(sf::Vector2f pos, float radius);

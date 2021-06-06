@@ -211,6 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ant.h" />
+    <ClInclude Include="AntState.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="Map.h" />

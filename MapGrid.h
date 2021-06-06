@@ -1,8 +1,37 @@
 #pragma once
 
+#include "AntState.h"
+
+
+enum class CellType
+{
+	Neutral, Food
+};
+
 struct GridCell
 {
-	int t = 0;
+	sf::Vector2i position;
+	sf::Vector2f normal;
+	
+	AntState state;
+	
+	CellType type = CellType::Neutral;
+
+	float pheromone[2] = { 0.f, 0.f };
+
+	GridCell(sf::Vector2f pos) : position(pos), normal(sf::Vector2f(0,0))
+	{
+	}
+
+	void Update(const float& dt)
+	{
+		pheromone[0] -= 0.1f * dt;
+		pheromone[1] -= 0.1f * dt;
+		
+		pheromone[0] = std::max(pheromone[0], 0.f);
+		pheromone[1] = std::max(pheromone[1], 0.f);
+		
+	}
 };
 
 class MapGrid
@@ -22,7 +51,13 @@ public:
 	void Render(sf::RenderWindow* window);
 	void Update(const float& dt);
 
+	void WriteCell(sf::Vector2f position, sf::Vector2f normal, AntState state);
 	sf::Vector2i WorldToMap(sf::Vector2f);
 	int GetIndex(sf::Vector2i);
+	void ColorCell(int idx, sf::Color color);
+	GridCell* GetCellPtr(sf::Vector2i);
+	GridCell* GetCellPtr(sf::Vector2f);
+	GridCell& GetCell(sf::Vector2i);
+	GridCell& GetCell(sf::Vector2f);
 };
 

@@ -1,11 +1,9 @@
 #pragma once
 
+#include "AntState.h"
 #include "Map.h"
 
-enum class AntState
-{
-	Searching, Returning
-};
+
 
 class Ant
 {
@@ -18,9 +16,12 @@ private:
 	sf::Vector2f velocity;
 	sf::Vector2f direction;
 
+	sf::Vector2f prevPos;
+
 	Map* map;
 
 	float accumulatedTime{};
+	float speed = 50.f;
 
 public:
 	Ant(Map* map);
@@ -28,6 +29,8 @@ public:
 	void Wander(const float& dt);
 
 	void HandleFood();
+	bool CheckBoundaries();
+	void GetBestMove();
 	void Update(const float& dt);
 	void Render(sf::RenderWindow* window);
 };

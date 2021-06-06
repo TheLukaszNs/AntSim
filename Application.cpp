@@ -8,7 +8,7 @@ Application::Application()
 	this->editor = new Editor(this->window);
 	this->editorVisible = false;
 	this->map = new Map(this->window);
-	for (int i = 0; i < 100; ++i)
+	for (int i = 0; i < 1; ++i)
 	{
 		ants.push_back(new Ant(map));
 	}
