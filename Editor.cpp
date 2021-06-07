@@ -37,12 +37,16 @@ Editor::~Editor()
 	
 }
 
-void Editor::ShowEditor()
+void Editor::ShowEditor(std::function<void(void)> OnStartSimulation)
 {
 	ImGui::SetNextWindowSize(ImVec2(500.0f, 500.0f));
 	ImGui::Begin("Editor Settings");
 
 	this->DisplaySettings();
+
+	// start Simulation
+	if (ImGui::Button("Start", ImVec2(-1.0f, 20.0f)))
+		OnStartSimulation();
 
 	// close window
 	if (ImGui::Button("Exit", ImVec2(-1.0f, 20.0f)))

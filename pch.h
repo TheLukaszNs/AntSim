@@ -4,6 +4,7 @@
 #include <cmath>
 #include <set>
 #include <vector>
+#include <functional>
 
 #include <SFML/Graphics.hpp>
 #include <imgui.h>

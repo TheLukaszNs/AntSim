@@ -64,7 +64,7 @@ void MapGrid::Update(const float& dt)
 		
 	}
 
-	//if(SimulationSettings::placeObject == 1)
+	if(SimulationSettings::placeObject == 1)
 	{
 		if(ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 		{

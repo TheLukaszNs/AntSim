@@ -12,6 +12,7 @@ struct SimulationSettings
 	// Ant Hill
 	static float antHillColor[4];
 	static bool antHillPlaced;
+	static sf::Vector2f antHillPosition;
 
 	// Food
 	static float foodColor[4];

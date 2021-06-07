@@ -13,5 +13,5 @@ public:
 	Editor(sf::RenderWindow* window);
 	~Editor();
 
-	void ShowEditor();
+	void ShowEditor(std::function<void(void)> OnStartSimulation);
 };

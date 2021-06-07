@@ -7,7 +7,7 @@ Ant::Ant(Map* map) : map(map)
 {
 	shape.setFillColor(sf::Color::White);
 	shape.setRadius(5.f);
-	position = { 960.f, 560.f };
+	position = SimulationSettings::antHillPosition;
 	shape.setPosition(position);
 }
 
@@ -28,7 +28,7 @@ void Ant::Wander(const float& dt)
 	velocity = AntMath::ClampMagnitude(velocity + acceleration * dt, speed);
 	position += velocity * dt;
 
-	if (position.x <= 0.f || position.x >= 1920.f || position.y <= 0.f || position.y >= 1080.f) position = sf::Vector2f(960.f, 590.f);
+	if (position.x <= 0.f || position.x >= 1920.f || position.y <= 0.f || position.y >= 1080.f) position = SimulationSettings::antHillPosition;
 }
 
 void Ant::HandleFood()
@@ -117,7 +117,7 @@ void Ant::Update(const float& dt)
 	if(state == AntState::Returning)
 	{
 
-		if(AntMath::Distance(position, sf::Vector2f(960.f, 590.f)) <= 50.f)
+		if(AntMath::Distance(position, SimulationSettings::antHillPosition) <= 50.f)
 		{
 			state = AntState::Searching;
 			shape.setFillColor(sf::Color::White);

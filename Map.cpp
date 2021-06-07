@@ -19,7 +19,7 @@ void Map::DisplayAll()
 
 Map::Map(sf::RenderWindow* window) : window(window)
 {
-	grid = new MapGrid(window->getSize().x, window->getSize().y, 20);
+	grid = new MapGrid(window->getSize().x, window->getSize().y, 8);
 }
 
 Map::~Map()
@@ -49,9 +49,9 @@ void Map::Render()
 			this->DrawAntHill();
 		break;
 
-	case 1:
+	/*case 1:
 		this->DrawFood();
-		break;
+		break;*/
 
 	case 2:
 		this->DrawWalls();
@@ -101,6 +101,7 @@ void Map::DrawAntHill()
 	this->antHill.setFillColor(this->ConvertColor(SimulationSettings::antHillColor));
 	this->antHill.setOrigin(sf::Vector2f(this->antHill.getRadius(), this->antHill.getRadius()));
 	this->antHill.setPosition(sf::Vector2f(mousePosition.x, mousePosition.y));
+	SimulationSettings::antHillPosition = this->antHill.getPosition();
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
@@ -127,68 +128,68 @@ void Map::DrawAntHill()
 	this->window->draw(this->antHill);
 }
 
-void Map::DrawFood()
-{
-	sf::Vector2f mousePosition = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
-	sf::CircleShape f;
-	f.setRadius(50.0f);
-	f.setFillColor(this->ConvertColor(SimulationSettings::foodColor));
-	f.setOrigin(sf::Vector2f(f.getRadius(), f.getRadius()));
-	f.setPosition(sf::Vector2f(mousePosition.x, mousePosition.y));
-
-	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-	{
-		// nie ma mrowiska i jedzenia
-		if (SimulationSettings::antHillPlaced == false && this->food.size() == 0)
-			this->food.push_back(f);
-
-		// nie ma mrowiska, jest jedzenie
-		else if (SimulationSettings::antHillPlaced == false && this->food.size() > 0)
-		{
-			bool canBePlaced = true;
-			int size = this->food.size();
-
-			for (int i = 0; i < size; i++)
-				if (2 * f.getRadius() > AntMath::Magnitude<float>(this->food[i].getPosition() - mousePosition))
-				{
-					canBePlaced = false;
-					break;
-				}
-
-			if (canBePlaced)
-				this->food.push_back(f);
-		}
-
-		// jest mrowisko, nie ma jedzenia
-		else if (SimulationSettings::antHillPlaced && this->food.size() == 0)
-		{
-			if (this->antHill.getRadius() + f.getRadius() <= AntMath::Magnitude<float>(this->antHill.getPosition() - mousePosition))
-				this->food.push_back(f);
-		}
-
-		// to i to jest
-		else
-		{
-			bool canBePlaced = true;
-			int size = this->food.size();
-
-			for (int i = 0; i < size; i++)
-			{
-				if (2 * f.getRadius() > AntMath::Magnitude<float>(this->food[i].getPosition() - mousePosition) ||
-					this->antHill.getRadius() + f.getRadius() > AntMath::Magnitude<float>(this->antHill.getPosition() - mousePosition))
-				{
-					canBePlaced = false;
-					break;
-				}
-			}
-
-			if (canBePlaced)
-				this->food.push_back(f);
-		}
-	}
-
-	this->window->draw(f);
-}
+//void Map::DrawFood()
+//{
+//	sf::Vector2f mousePosition = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
+//	sf::CircleShape f;
+//	f.setRadius(50.0f);
+//	f.setFillColor(this->ConvertColor(SimulationSettings::foodColor));
+//	f.setOrigin(sf::Vector2f(f.getRadius(), f.getRadius()));
+//	f.setPosition(sf::Vector2f(mousePosition.x, mousePosition.y));
+//
+//	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+//	{
+//		// nie ma mrowiska i jedzenia
+//		if (SimulationSettings::antHillPlaced == false && this->food.size() == 0)
+//			this->food.push_back(f);
+//
+//		// nie ma mrowiska, jest jedzenie
+//		else if (SimulationSettings::antHillPlaced == false && this->food.size() > 0)
+//		{
+//			bool canBePlaced = true;
+//			int size = this->food.size();
+//
+//			for (int i = 0; i < size; i++)
+//				if (2 * f.getRadius() > AntMath::Magnitude<float>(this->food[i].getPosition() - mousePosition))
+//				{
+//					canBePlaced = false;
+//					break;
+//				}
+//
+//			if (canBePlaced)
+//				this->food.push_back(f);
+//		}
+//
+//		// jest mrowisko, nie ma jedzenia
+//		else if (SimulationSettings::antHillPlaced && this->food.size() == 0)
+//		{
+//			if (this->antHill.getRadius() + f.getRadius() <= AntMath::Magnitude<float>(this->antHill.getPosition() - mousePosition))
+//				this->food.push_back(f);
+//		}
+//
+//		// to i to jest
+//		else
+//		{
+//			bool canBePlaced = true;
+//			int size = this->food.size();
+//
+//			for (int i = 0; i < size; i++)
+//			{
+//				if (2 * f.getRadius() > AntMath::Magnitude<float>(this->food[i].getPosition() - mousePosition) ||
+//					this->antHill.getRadius() + f.getRadius() > AntMath::Magnitude<float>(this->antHill.getPosition() - mousePosition))
+//				{
+//					canBePlaced = false;
+//					break;
+//				}
+//			}
+//
+//			if (canBePlaced)
+//				this->food.push_back(f);
+//		}
+//	}
+//
+//	this->window->draw(f);
+//}
 
 void Map::DrawWalls()
 {
