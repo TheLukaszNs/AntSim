@@ -19,7 +19,7 @@ void Map::DisplayAll()
 
 Map::Map(sf::RenderWindow* window) : window(window)
 {
-	grid = new MapGrid(window->getSize().x, window->getSize().y, 20);
+	grid = new MapGrid(window->getSize().x, window->getSize().y, 2);
 }
 
 Map::~Map()

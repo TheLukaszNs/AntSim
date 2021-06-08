@@ -21,12 +21,14 @@ struct GridCell
 
 	GridCell(sf::Vector2f pos) : position(pos), normal(sf::Vector2f(0,0))
 	{
+		//float c = AntMath::Random::get(0.f, 1.f);
+		//if (c <= 0.01f) type = CellType::Food;
 	}
 
 	void Update(const float& dt)
 	{
-		pheromone[0] -= 0.1f * dt;
-		pheromone[1] -= 0.1f * dt;
+		pheromone[0] -= 0.08f * dt;
+		pheromone[1] -= 0.08f * dt;
 		
 		pheromone[0] = std::max(pheromone[0], 0.f);
 		pheromone[1] = std::max(pheromone[1], 0.f);

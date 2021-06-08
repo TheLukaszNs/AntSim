@@ -18,14 +18,23 @@ Ant::~Ant()
 void Ant::Wander(const float& dt)
 {
 	prevPos = position;
-	
-	direction = AntMath::NormalizeVector(direction + AntMath::RandomInUnitCircle() * (state == AntState::Searching ? 0.05f : 0.f));
 
-	sf::Vector2f desVel = direction * speed;
-	sf::Vector2f desSteeringForce = (desVel - velocity) * speed;
-	sf::Vector2f acceleration = AntMath::ClampMagnitude(desSteeringForce, speed) / 1.f;
+	if(state == AntState::Searching)
+	{
+
+		direction = AntMath::NormalizeVector(direction + AntMath::RandomInUnitCircle() * 0.05f);
+
+		sf::Vector2f desVel = direction * speed;
+		sf::Vector2f desSteeringForce = (desVel - velocity) * speed;
+		sf::Vector2f acceleration = AntMath::ClampMagnitude(desSteeringForce, speed) / 1.f;
+		velocity = AntMath::ClampMagnitude(velocity + acceleration * dt, speed);
+
+	}
+	else
+	{
+		velocity = direction * speed;
+	}
 	
-	velocity = AntMath::ClampMagnitude(velocity + acceleration * dt, speed);
 	position += velocity * dt;
 
 	if (position.x <= 0.f || position.x >= 1920.f || position.y <= 0.f || position.y >= 1080.f) position = sf::Vector2f(960.f, 590.f);
@@ -60,14 +69,14 @@ void Ant::GetBestMove()
 	float bestFit = 0.f;
 	sf::Vector2f bestDir;
 	GridCell* bestCell = nullptr;
-	int samples = 32;
+	int samples = 16;
 
 	const auto numState = state == AntState::Searching ? 1 : 0;
 	
 	while(samples --> 0)
 	{
-		const float sampleAngle = currAngle + AntMath::Random::get(0.f, sampleAngleRange);
-		const float distance = AntMath::Random::get(0.f, 50.f);
+		const float sampleAngle = currAngle + AntMath::Random::get(-sampleAngleRange / 2, sampleAngleRange / 2);
+		const float distance = AntMath::Random::get(30.f, 50.f);
 		const sf::Vector2f dirToCell = { cos(sampleAngle), sin(sampleAngle) };
 		auto* cell = map->grid->GetCellPtr(position + distance * dirToCell);
 
@@ -86,16 +95,16 @@ void Ant::GetBestMove()
 	{
 		bestCell->pheromone[!numState] *= 0.99f;
 
-		//printf("Found best move! pheromone: %f\n", bestFit);
+		//printf("Found best move! %f, %f", bestDir.x, bestDir.y);
 
 		
-		direction = AntMath::NormalizeVector(bestDir);
+		direction = bestDir;
 	}
 }
 
 void Ant::Update(const float& dt)
 {
-
+	GetBestMove();
 	Wander(dt);
 	HandleFood();
 
@@ -104,7 +113,6 @@ void Ant::Update(const float& dt)
 	if (accumulatedTime > .01f)
 	{
 		map->AddPoint(position, state, prevPos);
-		GetBestMove();
 
 
 		accumulatedTime = 0.f;
