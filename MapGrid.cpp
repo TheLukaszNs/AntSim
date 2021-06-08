@@ -59,12 +59,12 @@ void MapGrid::Update(const float& dt)
 
 		if(cell.type == CellType::Food)
 		{
-			ColorCell(idx, sf::Color::Green);
+			ColorCell(idx, AntMath::ConvertColor(SimulationSettings::foodColor));
 		}
 		
 	}
 
-	//if(SimulationSettings::placeObject == 1)
+	if(SimulationSettings::placeObject == 1)
 	{
 		if(ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 		{

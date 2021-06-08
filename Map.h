@@ -21,9 +21,6 @@ class Map
 private:
 	sf::RenderWindow* window;
 	sf::CircleShape antHill;
-	std::vector<sf::CircleShape> food;
-	std::vector<sf::RectangleShape> walls;
-	sf::RectangleShape w;
 	std::vector<MapPoint*> points;
 	std::vector<sf::Vertex> verticesToDraw;
 

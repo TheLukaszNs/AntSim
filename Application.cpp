@@ -4,14 +4,11 @@
 Application::Application()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Ant Simulations", sf::Style::Fullscreen);
+	SimulationSettings::windowSize = this->window->getSize();
 	this->event = sf::Event();
 	this->editor = new Editor(this->window);
-	this->editorVisible = false;
+	this->editorVisible = true;
 	this->map = new Map(this->window);
-	for (int i = 0; i < 5000; ++i)
-	{
-		ants.push_back(new Ant(map));
-	}
 
 	window->setKeyRepeatEnabled(false);
 	
@@ -90,7 +87,10 @@ void Application::Render()
 	ImGui::ShowDemoWindow();
 	// show Editor
 	if (this->editorVisible)
-		this->editor->ShowEditor();
+		this->editor->ShowEditor([&]() {
+		for (int i = 0; i < SimulationSettings::numberOfAnts; i++)
+			ants.push_back(new Ant(map));
+			});
 
 	for (auto* ant : ants)
 	{

@@ -2,6 +2,8 @@
 
 struct SimulationSettings
 {
+	static sf::Vector2u windowSize;
+
 	// Editor 
 	static float backgroundColor[4];
 
@@ -12,12 +14,10 @@ struct SimulationSettings
 	// Ant Hill
 	static float antHillColor[4];
 	static bool antHillPlaced;
+	static sf::Vector2f antHillPosition;
 
 	// Food
 	static float foodColor[4];
-
-	// Walls
-	static float wallColor[4];
 
 	// Switch
 	static int placeObject;

@@ -5,9 +5,9 @@
 
 Ant::Ant(Map* map) : map(map)
 {
-	shape.setFillColor(sf::Color::White);
+	shape.setFillColor(AntMath::ConvertColor(SimulationSettings::antColor));
 	shape.setRadius(5.f);
-	position = { 960.f, 560.f };
+	position = SimulationSettings::antHillPosition;
 	shape.setPosition(position);
 }
 
@@ -37,7 +37,7 @@ void Ant::Wander(const float& dt)
 	
 	position += velocity * dt;
 
-	if (position.x <= 0.f || position.x >= 1920.f || position.y <= 0.f || position.y >= 1080.f) position = sf::Vector2f(960.f, 590.f);
+	if (position.x <= 0.f || position.x >= 1920.f || position.y <= 0.f || position.y >= 1080.f) position = SimulationSettings::antHillPosition;
 }
 
 void Ant::HandleFood()
@@ -66,10 +66,10 @@ void Ant::GetBestMove()
 	const float sampleAngleRange = 0.8f * AntMath::PI;
 	const float currAngle = AntMath::Angle(direction);
 	
-	float bestFit = 0.f;
+	float bestFit = 0.0f;
 	sf::Vector2f bestDir;
 	GridCell* bestCell = nullptr;
-	int samples = 16;
+	int samples = 64;
 
 	const auto numState = state == AntState::Searching ? 1 : 0;
 	
@@ -110,7 +110,7 @@ void Ant::Update(const float& dt)
 
 	
 	accumulatedTime += dt;
-	if (accumulatedTime > .01f)
+	if (accumulatedTime > .1f)
 	{
 		map->AddPoint(position, state, prevPos);
 
@@ -125,10 +125,10 @@ void Ant::Update(const float& dt)
 	if(state == AntState::Returning)
 	{
 
-		if(AntMath::Distance(position, sf::Vector2f(960.f, 590.f)) <= 50.f)
+		if(AntMath::Distance(position, SimulationSettings::antHillPosition) <= 25.0f)
 		{
 			state = AntState::Searching;
-			shape.setFillColor(sf::Color::White);
+			shape.setFillColor(AntMath::ConvertColor(SimulationSettings::antColor));
 		}
 	}
 	else
