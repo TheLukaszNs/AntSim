@@ -9,7 +9,8 @@ struct SimulationSettings
 
 	// Ants
 	static int numberOfAnts;
-	static float antColor[4];
+	static float antColor1[4];
+	static float antColor2[4];
 
 	// Ant Hill
 	static float antHillColor[4];

@@ -21,7 +21,7 @@ MapGrid::MapGrid(float width_, float height_, int cellSize_) : width(std::ceil(w
 			vertices[i + 2].position	= sf::Vector2f((x * cellSize) + cellSize, (y * cellSize) + cellSize);
 			vertices[i + 3].position	= sf::Vector2f((x * cellSize), (y * cellSize) + cellSize);
 			
-			ColorCell(i, sf::Color::Black);
+			ColorCell(i, AntMath::ConvertColor(SimulationSettings::backgroundColor));
 
 			cells.emplace_back(sf::Vector2f(x, y));
 
@@ -70,7 +70,7 @@ void MapGrid::Update(const float& dt)
 		{
 			auto idx = GetIndex(WorldToMap(ImGui::GetMousePos()));
 			cells[idx / 4].type = CellType::Food;
-			ColorCell(idx, sf::Color::Yellow);
+			ColorCell(idx, AntMath::ConvertColor(SimulationSettings::foodColor));
 		}
 	}
 	
@@ -86,7 +86,7 @@ void MapGrid::WriteCell(sf::Vector2f position, sf::Vector2f normal, AntState sta
 	cell->pheromone[static_cast<uint32_t>(state)] = 1.f;
 	cell->state = state;
 
-	const sf::Color color = state == AntState::Searching ? sf::Color(144, 27, 222) : sf::Color::Red;
+	const sf::Color color = state == AntState::Searching ? AntMath::ConvertColor(SimulationSettings::antColor1) : AntMath::ConvertColor(SimulationSettings::antColor2);
 	
 	ColorCell(GetIndex(cell->position), color);
 }

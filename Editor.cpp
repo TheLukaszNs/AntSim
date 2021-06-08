@@ -8,8 +8,9 @@ void Editor::DisplaySettings()
 
 	// Ants
 	ImGui::Text("Ant Settings");
-	ImGui::SliderInt("Number Of Ants", &SimulationSettings::numberOfAnts, 1, 1000);
-	ImGui::ColorEdit4("Ant Color", SimulationSettings::antColor);
+	ImGui::SliderInt("Number Of Ants", &SimulationSettings::numberOfAnts, 1, 5000);
+	ImGui::ColorEdit4("Ant Color 1", SimulationSettings::antColor1);
+	ImGui::ColorEdit4("Ant Color 2", SimulationSettings::antColor2);
 
 	// Ant Hill
 	ImGui::Text("Ant Hill Settings");
