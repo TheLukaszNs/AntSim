@@ -21,7 +21,7 @@ private:
 	Map* map;
 
 	float accumulatedTime{};
-	float speed = 50.f;
+	float speed = 100.f;
 
 public:
 	Ant(Map* map);

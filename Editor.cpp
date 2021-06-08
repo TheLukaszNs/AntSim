@@ -20,11 +20,6 @@ void Editor::DisplaySettings()
 	ImGui::Text("Food Settings");
 	ImGui::ColorEdit4("Food Color", SimulationSettings::foodColor);
 	ImGui::RadioButton("Place Food", &SimulationSettings::placeObject, 1);
-
-	// Walls
-	ImGui::Text("Wall Settings");
-	ImGui::ColorEdit4("Wall Color", SimulationSettings::wallColor);
-	ImGui::RadioButton("Place Wall", &SimulationSettings::placeObject, 2);
 }
 
 Editor::Editor(sf::RenderWindow* window) : window(window)

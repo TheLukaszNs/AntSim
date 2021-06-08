@@ -5,6 +5,7 @@
 #include <set>
 #include <vector>
 #include <functional>
+#include <limits>
 
 #include <SFML/Graphics.hpp>
 #include <imgui.h>

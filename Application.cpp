@@ -4,6 +4,7 @@
 Application::Application()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Ant Simulations", sf::Style::Fullscreen);
+	SimulationSettings::windowSize = this->window->getSize();
 	this->event = sf::Event();
 	this->editor = new Editor(this->window);
 	this->editorVisible = true;
