@@ -11,7 +11,6 @@ Application::Application()
 	this->map = new Map(this->window);
 
 	window->setKeyRepeatEnabled(false);
-	
 
 	ImGui::SFML::Init(*window);
 }
@@ -22,9 +21,7 @@ Application::~Application()
 	delete this->editor;
 
 	for (auto* ant : ants)
-	{
 		delete ant;
-	}
 
 	delete map;
 }
@@ -54,11 +51,9 @@ void Application::UpdateEvents()
 
 		// any key pressed
 		if (this->event.type == sf::Event::KeyPressed)
-		{
 			// show / close Editor
 			if (this->event.key.code == sf::Keyboard::E)
 				this->editorVisible = this->editorVisible ? false : true;
-		}
 	}
 }
 
@@ -69,9 +64,7 @@ void Application::Update()
 	this->map->Update(deltaTime.asSeconds());
 	
 	for (const auto& ant : ants)
-	{
 		ant->Update(deltaTime.asSeconds());
-	}
 	
 	// Dear ImGui stuff
 	ImGui::SFML::Update(*window, deltaTime);
@@ -93,12 +86,9 @@ void Application::Render()
 			});
 
 	for (auto* ant : ants)
-	{
 		ant->Render(window);
-	}
 
 	ImGui::SFML::Render(*window);
 
 	this->window->display();
-
 }

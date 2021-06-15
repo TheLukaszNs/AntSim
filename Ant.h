@@ -3,8 +3,6 @@
 #include "AntState.h"
 #include "Map.h"
 
-
-
 class Ant
 {
 private:
@@ -15,8 +13,6 @@ private:
 	sf::Vector2f position;
 	sf::Vector2f velocity;
 	sf::Vector2f direction;
-
-	sf::Vector2f prevPos;
 
 	Map* map;
 

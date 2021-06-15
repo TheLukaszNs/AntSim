@@ -11,7 +11,6 @@ enum class CellType
 struct GridCell
 {
 	sf::Vector2i position;
-	sf::Vector2f normal;
 	
 	AntState state;
 	
@@ -19,10 +18,9 @@ struct GridCell
 
 	float pheromone[2] = { 0.f, 0.f };
 
-	GridCell(sf::Vector2f pos) : position(pos), normal(sf::Vector2f(0,0))
+	GridCell(sf::Vector2f pos) : position(pos)
 	{
-		//float c = AntMath::Random::get(0.f, 1.f);
-		//if (c <= 0.01f) type = CellType::Food;
+
 	}
 
 	void Update(const float& dt)
@@ -32,7 +30,6 @@ struct GridCell
 		
 		pheromone[0] = std::max(pheromone[0], 0.f);
 		pheromone[1] = std::max(pheromone[1], 0.f);
-		
 	}
 };
 
@@ -53,7 +50,7 @@ public:
 	void Render(sf::RenderWindow* window);
 	void Update(const float& dt);
 
-	void WriteCell(sf::Vector2f position, sf::Vector2f normal, AntState state);
+	void WriteCell(sf::Vector2f position, AntState state);
 	sf::Vector2i WorldToMap(sf::Vector2f);
 	int GetIndex(sf::Vector2i);
 	void ColorCell(int idx, sf::Color color);

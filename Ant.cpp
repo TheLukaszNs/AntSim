@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Ant.h"
-
 #include "Map.h"
 
 Ant::Ant(Map* map) : map(map)
@@ -13,27 +12,23 @@ Ant::Ant(Map* map) : map(map)
 
 Ant::~Ant()
 {
+
 }
 
 void Ant::Wander(const float& dt)
 {
-	prevPos = position;
-
 	if(state == AntState::Searching)
 	{
-
 		direction = AntMath::NormalizeVector(direction + AntMath::RandomInUnitCircle() * 0.05f);
 
 		sf::Vector2f desVel = direction * speed;
 		sf::Vector2f desSteeringForce = (desVel - velocity) * speed;
 		sf::Vector2f acceleration = AntMath::ClampMagnitude(desSteeringForce, speed) / 1.f;
 		velocity = AntMath::ClampMagnitude(velocity + acceleration * dt, speed);
+	}
 
-	}
 	else
-	{
 		velocity = direction * speed;
-	}
 	
 	position += velocity * dt;
 
@@ -48,11 +43,6 @@ void Ant::HandleFood()
 		direction *= -1.f;
 		velocity *= -1.f;
 		shape.setFillColor(AntMath::ConvertColor(SimulationSettings::antColor2));
-	}
-
-	if(state == AntState::Returning)
-	{
-		//direction = map->grid->GetCell(position).normal;
 	}
 }
 
@@ -90,14 +80,9 @@ void Ant::GetBestMove()
 		}
 	}
 
-
 	if(bestFit > 0.f)
 	{
 		bestCell->pheromone[!numState] *= 0.99f;
-
-		//printf("Found best move! %f, %f", bestDir.x, bestDir.y);
-
-		
 		direction = bestDir;
 	}
 }
@@ -108,36 +93,19 @@ void Ant::Update(const float& dt)
 	Wander(dt);
 	HandleFood();
 
-	
+	map->AddPoint(position, state);
 	accumulatedTime += dt;
+
 	if (accumulatedTime > .001f)
-	{
-		map->AddPoint(position, state, prevPos);
-
-
 		accumulatedTime = 0.f;
-	}
-
-
-
-
 	
 	if(state == AntState::Returning)
-	{
-
 		if(AntMath::Distance(position, SimulationSettings::antHillPosition) <= 25.0f)
 		{
 			state = AntState::Searching;
 			shape.setFillColor(AntMath::ConvertColor(SimulationSettings::antColor2));
 		}
-	}
-	else
-	{
 
-	}
-	
-
-	
 	shape.setPosition(position);
 }
 
