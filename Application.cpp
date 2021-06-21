@@ -3,7 +3,7 @@
 
 Application::Application()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "Ant Simulations", sf::Style::Fullscreen);
+	this->window = new sf::RenderWindow(sf::VideoMode(1920, 1080) , "Ant Simulations", sf::Style::Close | sf::Style::Titlebar);
 	SimulationSettings::windowSize = this->window->getSize();
 	this->event = sf::Event();
 	this->editor = new Editor(this->window);

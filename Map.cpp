@@ -25,16 +25,10 @@ void Map::Render()
 {
 	grid->Render(window);
 
-	switch (SimulationSettings::placeObject)
-	{
-	case 0:
+	// place Ant Hill
+	if (SimulationSettings::placeObject == 0)
 		if (!SimulationSettings::antHillPlaced)
 			this->DrawAntHill();
-		break;
-
-	default:
-		break;
-	}
 
 	this->DisplayAll();
 }
